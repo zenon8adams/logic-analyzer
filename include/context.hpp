@@ -16,7 +16,10 @@ namespace Logic
     private:
         static std::map<std::wstring, bool> varTable;
     };
+}
 
+extern "C" {
+    DLL_EXPORT void Assign( const wchar_t *str, bool result);
 }
 
 #endif

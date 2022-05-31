@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include "model/table-model.hpp"
 #include "binary-counter.hpp"
 #include "context.hpp"
@@ -101,7 +102,7 @@ void Logic::TableModel::DisplayHeading() const
     _default << centered(( --headers.cend())->header ) << '\n';
 }
 
-void Logic::TableModel::BuildHeaders()
+void Logic::TableModel::BuildHeaders() const
 {
     auto model = logicModel.Model();
     std::for_each( model.cbegin(), model.cend(), [this]( auto&& heading )
@@ -123,6 +124,14 @@ void Logic::TableModel::Flush() const
         fwrite( text.data(), sizeof(char), text.size(), channel[ i] );
 
     _default.clear();
+}
+
+std::vector<Logic::TableModel::HeaderData> Logic::TableModel::GetHeaders() const
+{
+    if( headers.empty())
+        BuildHeaders();
+
+    return headers;
 }
 
 extern "C" {

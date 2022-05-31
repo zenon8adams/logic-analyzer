@@ -10,14 +10,16 @@ namespace Logic
 {
     class DLL_EXPORT TableModel
     {
+        struct HeaderData;
     public:
+        typedef HeaderData HeaderType;
 
         explicit TableModel( LogicModel ml );
         ~TableModel();
         void AddOutputChannels( std::initializer_list<std::reference_wrapper<std::ostream>> os );
         void AddOutputChannel( FILE *channel );
         void SetDisplayModeAscending(bool asc );
-
+        std::vector<HeaderData> GetHeaders() const;
         void Display() const;
 
     private:
@@ -40,13 +42,13 @@ namespace Logic
 
         void DisplayHeading() const;
 
-        void BuildHeaders();
+        void BuildHeaders() const;
 
         void Flush() const;
 
         LogicModel logicModel;
 
-        std::vector<HeaderData> headers;
+        mutable std::vector<HeaderData> headers;
 
         mutable std::vector<std::reference_wrapper<std::ostream>> strms;
 

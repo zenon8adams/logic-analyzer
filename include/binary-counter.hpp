@@ -27,6 +27,7 @@ extern "C" {
     DLL_EXPORT Logic::BinaryCounter *createCounter( std::size_t size, char bit );
     DLL_EXPORT Logic::BinaryCounter *Inc( Logic::BinaryCounter *counter );
     DLL_EXPORT Logic::BinaryCounter *Dec( Logic::BinaryCounter *counter );
+    DLL_EXPORT const char *Value(Logic::BinaryCounter *counter );
     DLL_EXPORT void destroyCounterObject( Logic::BinaryCounter *obj );
 
 }

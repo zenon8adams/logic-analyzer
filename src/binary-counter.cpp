@@ -1,4 +1,5 @@
 #include <string>
+#include <memory.h>
 #include "binary-counter.hpp"
 
 Logic::BinaryCounter::BinaryCounter( std::string ini )
@@ -102,6 +103,11 @@ extern "C" {
     Logic::BinaryCounter *Dec( Logic::BinaryCounter *counter )
     {
         return &counter->Dec();
+    }
+
+    const char * Value(Logic::BinaryCounter *counter )
+    {
+        return strdup( counter->value().c_str());
     }
 
     void destroyCounterObject( Logic::BinaryCounter *obj )

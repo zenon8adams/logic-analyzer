@@ -101,7 +101,7 @@ std::string Util::ToU8String(const std::wstring& ws )
 
 extern "C" {
 
-    wchar_t *toWString( const char *str )
+    DLL_EXPORT wchar_t *toWString( const char *str )
     {
         std::wstring wsRep = Util::ToWString( str );
         auto *pstr = (wchar_t *)calloc( sizeof(wchar_t), wsRep.size() );
@@ -109,7 +109,7 @@ extern "C" {
         return pstr;
     }
 
-    void freeArray( wchar_t **array, size_t size )
+    DLL_EXPORT void freeArray( wchar_t **array, size_t size )
     {
         for ( size_t i = 0; i < size; ++i )
             free( array[ i] );
@@ -117,7 +117,7 @@ extern "C" {
         array = nullptr;
     }
 
-    void freeString( wchar_t *c )
+    DLL_EXPORT void freeString( wchar_t *c )
     {
         free( c );
     }

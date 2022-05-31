@@ -1,3 +1,4 @@
+#include <utility.hpp>
 #include "context.hpp"
 
 void Logic::Context::Lookup( const std::wstring& str, bool& result ) const
@@ -12,3 +13,8 @@ void Logic::Context::Assign( const std::wstring& s, bool b )
 }
 
 std::map<std::wstring, bool> Logic::Context::varTable;
+
+void Assign( const wchar_t *str, bool result)
+{
+    Logic::Context::Assign( str, result);
+}
