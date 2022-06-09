@@ -20,7 +20,13 @@ const make_analyzer = function ( opts)
     return emitter;
 };
 
-const addon = make_analyzer( { input: "A & B | C ^ D | B & A"});
+const addon = make_analyzer( { input: "(((A & B) | D | C) => ((A ^ B) & E | C)) <=> (((C & ~F) & ~A | G) => ((A | ~B) | A & H))"});
 
-addon.on( 'packet', ( packet) => console.log( packet));
+addon.on( 'packet', ( packet) => {
+    const result = JSON.parse( packet);
+    if( result.headers != null)
+        console.log( result);
+    else
+        console.log( packet)
+});
 addon.on( 'error', ( message) => console.log( message));

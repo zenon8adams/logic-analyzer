@@ -1,4 +1,6 @@
 #include <unordered_map>
+#include <algorithm>
+#include <iostream>
 #include "model/logic-model.hpp"
 
 Logic::LogicModel::LogicModel( std::vector<std::wstring>  postfix ): token(std::move( postfix ))
@@ -74,6 +76,9 @@ void Logic::LogicModel::buildModel()
         }
     }
     nVars = varSection;
+    auto compare = []( auto&& l, auto&& r) { return l->ToWString() < r->ToWString(); };
+    std::stable_sort( model.begin(), model.begin() + varSection, compare); // Ensure the truth variables are sorted
+    std::stable_sort( model.begin() + varSection, model.begin() + varSection + negSection, compare); // Ensure the negation of variables are sorted
 }
 
 int Logic::LogicModel::getOp( std::wstring& str )

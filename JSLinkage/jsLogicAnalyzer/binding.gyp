@@ -9,7 +9,7 @@
       "link_settings": {
           "libraries": [
             "-ljs__conn -lanalyzer",
-            "-Wl,-rpath=<!(pwd)/"
+            "-Wl,-rpath=./"
 
           ],
           "library_dirs": [
