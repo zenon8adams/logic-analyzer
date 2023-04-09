@@ -68,8 +68,8 @@ const controller = readline.createInterface({
 const main = function()
 {
     controller.question( 
-        "KEY: XOR( ^, @ ), OR( |, \/ ), AND( &, /\ )" +
-        ", NOT( ~, ! ), IF( =>, -> ), IFF( <=> )" +
+        "KEY: XOR( ^, @ ), OR( |, \\/ ), AND( &, /\\ )," +
+        " NOT( ~, ! ), IF( =>, -> ), IFF( <=> )" +
         "\nEnter a logical expression: ", query => {
         if( query.length !== 0)
             tabulate( query);
