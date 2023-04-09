@@ -8,7 +8,7 @@ add_library( ${LIBRARY} SHARED jsLogicAnalyzer/jsLogicAnalyzer.cpp
 set_target_properties( ${LIBRARY} PROPERTIES PUBLIC_HEADER jsLogicAnalyzer/jsLogicAnalyzer.hpp)
 set_target_properties( ${LIBRARY} PROPERTIES PUBLIC_HEADER utility/builder/json-builder.hpp)
 
-execute_process( COMMAND npm install
+execute_process( COMMAND npm install nan
                  WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
 execute_process( COMMAND node -e "require('nan')"
@@ -25,21 +25,20 @@ target_link_directories( ${LIBRARY} PUBLIC ${PROJECT_INCLUDE_FILES})
 target_link_libraries( ${LIBRARY} PUBLIC worker)
 
 add_custom_target( CREATE_ADDON_DIR ALL
-                   COMMAND ${CMAKE_COMMAND} -E make_directory build
+                   COMMAND ${CMAKE_COMMAND} -E make_directory build_deps
                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/jsLogicAnalyzer/")
 
 add_dependencies( CREATE_ADDON_DIR ${LIBRARY})
 
 add_custom_target( COPY_ADDON_LIBRARY_${LIBRARY} ALL
                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LIBRARY}> 
-                   "${CMAKE_CURRENT_SOURCE_DIR}/jsLogicAnalyzer/build/")
+                   "${CMAKE_CURRENT_SOURCE_DIR}/jsLogicAnalyzer/build_deps/")
 
 add_dependencies( COPY_ADDON_LIBRARY_${LIBRARY} 
                   ${LIBRARY} CREATE_ADDON_DIR)
 
 add_custom_target( BUILD_ADDON ALL 
-                   COMMAND node-gyp configure
-                   COMMAND node-gyp build
+                   COMMAND npm install
                    WORKING_DIRECTORY 
                    "${CMAKE_CURRENT_SOURCE_DIR}/jsLogicAnalyzer")
 

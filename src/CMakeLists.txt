@@ -24,7 +24,7 @@ set_target_properties( ${LIBRARY} PROPERTIES PUBLIC_HEADER ${PROJECT_INCLUDE_FIL
 add_custom_target( COPY_ADDON_LIBRARY_${LIBRARY} ALL
                    COMMAND ${CMAKE_COMMAND}
                    -E copy $<TARGET_FILE:${LIBRARY}> 
-                   "${CMAKE_SOURCE_DIR}/JSLinkage/jsLogicAnalyzer/build/")
+                   "${CMAKE_SOURCE_DIR}/JSLinkage/jsLogicAnalyzer/build_deps/")
 
 add_dependencies( COPY_ADDON_LIBRARY_${LIBRARY} ${LIBRARY}
     CREATE_ADDON_DIR)
