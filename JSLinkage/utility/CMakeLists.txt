@@ -10,7 +10,7 @@ set( PROJECT_INCLUDE_FILES streaming-worker.hpp streaming-worker-adapter.hpp)
 
 add_library( ${LIBRARY_NAME} STATIC ${PROJECT_SRC_FILES})
 
-target_include_directories( ${LIBRARY_NAME} PRIVATE /usr/include/node)
-include_directories( ${LIBRARY_NAME} PRIVATE /usr/include/node)
+target_include_directories( ${LIBRARY_NAME} PRIVATE /usr/include/node
+                                                    ${NODE_ADDON_API_DIR})
 
 target_link_directories( ${LIBRARY_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
