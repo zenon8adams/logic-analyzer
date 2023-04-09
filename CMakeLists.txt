@@ -4,8 +4,8 @@ project(LogicAnalyzer)
 set( CMAKE_CXX_STANDARD 17)
 set( PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR} )
 
-add_subdirectory( JSLinkage )
 add_subdirectory( src)
+add_subdirectory( JSLinkage )
 add_subdirectory( src/samples )
 
 include_directories( include )
