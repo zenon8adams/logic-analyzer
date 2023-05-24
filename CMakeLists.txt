@@ -1,5 +1,18 @@
 cmake_minimum_required(VERSION 3.15)
-project(LogicAnalyzer)
+project(LogicAnalyzer VERSION 1.0.0 LANGUAGES CXX)
+
+find_package(Git)
+
+if(GIT_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --pretty=format:%an
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE PROJECT_AUTHOR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+else()
+    set(PROJECT_AUTHOR "")
+endif()
 
 set( CMAKE_CXX_STANDARD 17)
 set( PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR} )

@@ -1,0 +1,8 @@
+{
+  "name": "@LIBRARY@",
+  "version": "@PROJECT_VERSION@",
+  "description": "Logic analyzer dependency loader",
+  "main": "index.js",
+  "author": "@PROJECT_AUTHOR@",
+  "license": "ISC"
+}

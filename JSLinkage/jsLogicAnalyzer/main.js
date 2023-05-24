@@ -6,7 +6,7 @@ const readline     = require( 'readline');
 
 const make_analyzer = function ( opts)
 {
-    const worker = require('bindings')('logic_analyzer');
+    const { worker } = require("logic_analyzer")
 
     const emitter = new EventEmitter();
     worker.StreamingWorker( function ( key, value) {
