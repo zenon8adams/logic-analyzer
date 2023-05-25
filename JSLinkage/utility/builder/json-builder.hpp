@@ -6,24 +6,26 @@
 class JsonBuilder
 {
 public:
-    JsonBuilder& add( const std::string& key, const std::string& value, bool quote = true);
+  JsonBuilder& add(std::string_view key, std::string_view value,
+                   bool quote = true);
 
-    JsonBuilder& add( const std::string& key, bool value);
+  [[maybe_unused]] JsonBuilder& add(std::string_view key, bool value);
 
-    JsonBuilder& add( const std::string& key, int value);
+  [[maybe_unused]] JsonBuilder& add(std::string_view key, int value);
 
-    inline void extend( char stamp = '{');
+  inline void extend(char stamp = '{');
 
-    JsonBuilder& startList( const std::string& key);
+  JsonBuilder& startList(std::string_view key);
 
-    JsonBuilder& add( const std::string& value);
+  JsonBuilder& add(std::string_view value);
 
-    JsonBuilder& endList();
+  JsonBuilder& endList();
 
-    std::string final( char stamp = '}');
+  std::string final(char stamp = '}');
 
 private:
-    std::string session = "{";
+  std::string session = "{";
+  static constexpr std::string_view DOUBLE_QUOTE = R"(")";
 };
 
-#endif //JSON_BUILDER_HPP
+#endif // JSON_BUILDER_HPP

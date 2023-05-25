@@ -1,16 +1,14 @@
 include_guard()
-include_directories( ${PROJECT_ROOT_DIR}/include )
+set(LIBRARY worker)
 
-set( LIBRARY_NAME worker)
+set(PROJECT_SRC_FILES streaming-worker.cpp streaming-worker-adapter.cpp)
+set(PROJECT_INCLUDE_FILES streaming-worker.hpp streaming-worker-adapter.hpp pcqueue.hpp)
 
-set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -fPIC)
+add_library(${LIBRARY} STATIC ${PROJECT_SRC_FILES})
 
-set( PROJECT_SRC_FILES streaming-worker.cpp streaming-worker-adapter.cpp)
-set( PROJECT_INCLUDE_FILES streaming-worker.hpp streaming-worker-adapter.hpp)
+target_include_directories(${LIBRARY} PUBLIC ${NODE_ADDON_API_DIR} ${CMAKE_SOURCE_DIR}/include)
+find_path(NODE_INCLUDE_PATH NAMES node.h HINTS /usr/ /usr/local/ PATH_SUFFIXES include/node REQUIRED)
+target_include_directories(${LIBRARY} SYSTEM PRIVATE ${NODE_INCLUDE_PATH})
 
-add_library( ${LIBRARY_NAME} STATIC ${PROJECT_SRC_FILES})
-
-target_include_directories( ${LIBRARY_NAME} PRIVATE /usr/include/node
-                                                    ${NODE_ADDON_API_DIR})
-
-target_link_directories( ${LIBRARY_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
+target_link_directories(${LIBRARY} PUBLIC ${PROJECT_INCLUDE_FILES})
+set_target_properties(${LIBRARY} PROPERTIES POSITION_INDEPENDENT_CODE ON)

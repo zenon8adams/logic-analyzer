@@ -1,51 +1,47 @@
-#ifndef __LOGIC_MODEL_HPP
-#define __LOGIC_MODEL_HPP
+#ifndef LOGIC_MODEL_HPP
+#define LOGIC_MODEL_HPP
 
+#include "config.hpp"
+#include "logical-expression.hpp"
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
-#include "logical-expression.hpp"
-#include "config.hpp"
 
 namespace Logic
 {
+class DLL_EXPORT LogicModel
+{
+public:
+  explicit LogicModel(std::vector<std::wstring> postfix);
 
-    class DLL_EXPORT LogicModel
-    {
-    public:
+  [[nodiscard]] auto Model() const { return model; }
 
-        explicit LogicModel( std::vector<std::wstring> postfix );
+  [[nodiscard]] auto NumberOfVariable() const { return nVars; }
 
-        [[nodiscard]]  auto Model() const{ return model; }
+private:
+  void buildModel();
 
-        [[nodiscard]] auto NumberOfVariable() const{ return nVars; }
+  wchar_t getOp(std::wstring& str);
 
-    private:
+private:
+  std::vector<std::wstring> token;
 
-        void buildModel();
+  std::vector<std::shared_ptr<LogicalExp>> model;
 
-        int getOp( std::wstring& str );
+  size_t idx{}, nVars{};
+};
+} // namespace Logic
 
-    private:
+extern "C"
+{
+  using LogicalExpCollection = std::vector<std::shared_ptr<Logic::LogicalExp>>;
 
-        std::vector<std::wstring> token;
-
-        std::vector<std::shared_ptr<LogicalExp>> model;
-
-        size_t idx{}, nVars{};
-    };
-}
-
-extern "C" {
-
-    using LogicalExpCollection = std::vector<std::shared_ptr<Logic::LogicalExp>>;
-
-    DLL_EXPORT Logic::LogicModel *makeLogicModel( wchar_t ** array, size_t size );
-    DLL_EXPORT void model( Logic::LogicModel *lmodel,
-                          LogicalExpCollection *obj_coll );
-    DLL_EXPORT size_t numberOfVariable( Logic::LogicModel *lexp );
-    DLL_EXPORT void destroyLogicModelObject( Logic::LogicModel *lmodel );
-
+  MAYBE_UNUSED DLL_EXPORT Logic::LogicModel *makeLogicModel(wchar_t **array,
+                                                            size_t size);
+  DLL_EXPORT void model(Logic::LogicModel *lmodel,
+                        LogicalExpCollection *obj_coll);
+  MAYBE_UNUSED DLL_EXPORT size_t numberOfVariable(Logic::LogicModel *lexp);
+  DLL_EXPORT void destroyLogicModelObject(Logic::LogicModel *lmodel);
 }
 
 #endif

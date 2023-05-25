@@ -1,25 +1,26 @@
-#ifndef __CONTEXT_HPP
-#define __CONTEXT_HPP
+#ifndef CONTEXT_HPP
+#define CONTEXT_HPP
 
-#include <string>
-#include <map>
 #include "config.hpp"
+#include <string>
+#include <unordered_map>
 
 namespace Logic
 {
-    class DLL_LOCAL Context
-    {
-    public:
-        DLL_LOCAL void Lookup( const std::wstring& str, bool& result ) const;
-        static DLL_LOCAL void Assign( const std::wstring& s, bool b );
+class DLL_LOCAL Context
+{
+public:
+  static DLL_LOCAL void Lookup(std::wstring_view str, bool& result);
+  DLL_LOCAL static void Assign(std::wstring_view s, bool b);
 
-    private:
-        static std::map<std::wstring, bool> varTable;
-    };
-}
+private:
+  static std::unordered_map<std::wstring, bool>& Lookup();
+};
+} // namespace Logic
 
-extern "C" {
-    DLL_EXPORT void Assign( const wchar_t *str, bool result);
+extern "C"
+{
+  DLL_EXPORT void Assign(const wchar_t *str, bool result);
 }
 
 #endif
