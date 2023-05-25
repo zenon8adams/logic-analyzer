@@ -1,20 +1,22 @@
-#include <utility.hpp>
 #include "context.hpp"
 
-void Logic::Context::Lookup( const std::wstring& str, bool& result ) const
+void Logic::Context::Lookup(std::wstring_view str, bool& result)
 {
-    auto value = varTable.find( str );
-    if( value != varTable.cend() )
-        result = value->second;
+  auto value = Lookup().find(static_cast<std::wstring>(str));
+  if (value != Lookup().cend())
+	result = value->second;
 }
-void Logic::Context::Assign( const std::wstring& s, bool b )
+void Logic::Context::Assign(std::wstring_view s, bool b)
 {
-    varTable[ s ] = b;
+  Lookup().emplace(s, b);
+}
+std::unordered_map<std::wstring, bool>& Logic::Context::Lookup()
+{
+  static std::unordered_map<std::wstring, bool> varTable;
+  return varTable;
 }
 
-std::map<std::wstring, bool> Logic::Context::varTable;
-
-void Assign( const wchar_t *str, bool result)
+void Assign(const wchar_t *str, bool result)
 {
-    Logic::Context::Assign( str, result);
+  Logic::Context::Assign(str, result);
 }

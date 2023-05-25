@@ -7,16 +7,14 @@ const readline     = require( 'readline');
 const make_analyzer = function ( opts)
 {
     const { worker } = require("logic_analyzer")
-
     const emitter = new EventEmitter();
     worker.StreamingWorker( function ( key, value) {
         emitter.emit( key, value);
     }, function () {
         emitter.emit( "close");
     }, function ( error) {
-        emitter.emit( "error", error);
+        emitter.emit( "error", error.message);
     }, opts);
-
     return emitter;
 };
 
@@ -42,10 +40,14 @@ const tabulate = function( text)
         }
     });
 
-    addon.on( 'error', ( message) => console.log( message));
+    addon.on( 'error', ( message) => {
+        console.log(message);
+        process.exit(0);
+    });
 
     addon.on( 'close', () => {
-        console.table( table, headers);
+        if(table.length !== 0)
+            console.table( table, headers);
         headers = null;
         rows = [];
         table = [];
