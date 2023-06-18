@@ -24,9 +24,7 @@ target_include_directories(${LIBRARY} SYSTEM PRIVATE ${NODE_INCLUDE_PATH})
 add_subdirectory(utility)
 add_dependencies(${LIBRARY} worker)
 
-target_link_directories(${LIBRARY} PUBLIC ${PROJECT_INCLUDE_FILES})
 target_link_libraries(${LIBRARY} PUBLIC worker analyzer)
-
 set_target_properties(${LIBRARY} PROPERTIES PREFIX "" SUFFIX ".node")
 
 ## Set properties to inject into Nodejs-Module required to load the addon

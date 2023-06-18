@@ -26,7 +26,7 @@ MAYBE_UNUSED extern BinaryCounter *createCounter_s(const char *ini);
 extern BinaryCounter *createCounter(size_t size, char bit);
 extern BinaryCounter *Inc(BinaryCounter *counter);
 extern BinaryCounter *Dec(BinaryCounter *counter);
-[[maybe_unused]] MAYBE_UNUSED extern void
+MAYBE_UNUSED extern void
 destroyCounterObject(BinaryCounter *obj);
 
 extern PostfixGenerator *makePostfixGenerator(const wchar_t *input);
