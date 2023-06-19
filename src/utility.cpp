@@ -3,7 +3,10 @@
 
 #include "utility.hpp"
 
-std::wstring Util::WSRep(wchar_t c) { return {1, c}; }
+std::wstring Util::WSRep(wchar_t c)
+{
+  return std::wstring(1, c); // NOLINT(modernize-return-braced-init-list)
+}
 
 std::string Util::Decode(unsigned val)
 {
@@ -67,13 +70,12 @@ MAYBE_UNUSED int Util::Join(std::string str, size_t idx, int count)
 	return str[idx];
 
   int copy = count;
-  while (copy >= 1)
-	str[idx + static_cast<size_t>(copy--)] &= 0x3FU;
+  while (copy > 1)
+	str[idx + static_cast<size_t>(--copy)] &= 0x3FU;
 
-  unsigned char shift = 0xFF >> (count + 1);
+  unsigned char shift = 0xFF >> count;
   str[idx] = static_cast<char>(static_cast<unsigned char>(str[idx]) & shift);
-  auto i =
-      static_cast<size_t>((count) << 2U) + (static_cast<size_t>(count) << 1);
+  auto i = --count * 6;
   int value = 0;
   while (count >= 0)
   {
@@ -90,17 +92,16 @@ DLL_EXPORT std::wstring Util::ToWString(std::string str)
   for (size_t i = 0uL; i < str.size();)
   {
 	size_t byteCount = nByte(static_cast<unsigned char>(str[i]));
-	wsRep +=
-	    static_cast<wchar_t>(Join(str, i, static_cast<int>(byteCount) - 1));
+	wsRep += static_cast<wchar_t>(Join(str, i, static_cast<int>(byteCount)));
 	i += byteCount;
   }
   return wsRep;
 }
 
-std::string Util::ToU8String(std::wstring_view ws)
+std::string Util::ToU8String(std::wstring_view wide)
 {
   std::string s;
-  for (auto elm : ws)
+  for (auto elm : wide)
 	s += Decode(static_cast<unsigned int>(elm));
   return s;
 }
