@@ -8,7 +8,7 @@ void Logic::Context::Lookup(std::wstring_view str, bool& result)
 }
 void Logic::Context::Assign(std::wstring_view s, bool b)
 {
-  Lookup().emplace(s, b);
+  Lookup()[s.data()] = b;
 }
 std::unordered_map<std::wstring, bool>& Logic::Context::Lookup()
 {

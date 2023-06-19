@@ -25,7 +25,7 @@ MAYBE_UNUSED DLL_LOCAL int Join(std::string str, size_t idx, int count);
 
 std::wstring ToWString(std::string str);
 
-DLL_LOCAL std::string ToU8String(std::wstring_view ws);
+DLL_LOCAL std::string ToU8String(std::wstring_view wide);
 
 template <typename T>
 using is_valid_arg = std::disjunction<std::is_same<T, const char *>,
