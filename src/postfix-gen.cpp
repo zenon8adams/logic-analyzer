@@ -57,9 +57,9 @@ void Logic::PostfixGenerator::generate()
 		auto remaining = op->second.first.size() - 1;
 		std::wstring toComp(1, c);
 		toComp.reserve(remaining);
-		if (toComp.size() > 1)
+		if (toComp.capacity() > 1)
 		{
-		  toComp.resize(remaining);
+		  toComp.resize(remaining + 1);
 		  strm.readsome(&toComp[1], static_cast<std::ptrdiff_t>(remaining));
 		}
 		if (Util::ToU8String(toComp) != op->second.first)
@@ -74,7 +74,7 @@ void Logic::PostfixGenerator::generate()
 	}
 	else if (std::isalnum(c))
 	{
-	  auto str = std::wstring(1, c);
+	  auto str = Util::WSRep(c);
 	  auto remaining = getVariable();
 	  if (!remaining.empty())
 		str.append(remaining);
@@ -85,7 +85,7 @@ void Logic::PostfixGenerator::generate()
 	else
 	{
 	  throw Util::error::syntax_error(Util::Join(
-	      "Unknown token `", Util::ToU8String(std::wstring(1, c)), "`"));
+	      "Unknown token `", Util::ToU8String(Util::WSRep(c)), "`"));
 	}
   }
   unwindStackUntil([](int ch) { return ch != WEOF; });
